@@ -17,4 +17,3 @@ RUN pip install --no-cache-dir pipenv
 
 USER 1001
 
-CMD ["/bin/false"]
