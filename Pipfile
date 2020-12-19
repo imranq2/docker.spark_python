@@ -1,0 +1,46 @@
+[[source]]
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+wheel = "*"
+# ==== IMPORTANT: Also update the versions in .pre-commit-config ====
+sparkpipelineframework = "==0.1.61"
+"sparkpipelineframework.testing" = "==0.1.62"
+sparkautomapper = "==0.1.78"
+"sparkautomapper.fhir" = "==0.1.67"
+"sparkdataframecomparer" = "==0.1.55"
+"sparkfhirschemas" = "==0.1.16"
+pyspark = "==3.0.1"
+requests = "*"
+furl = "*"
+structlog = "*"
+boto3 = "*"
+virtualenv = "*"
+"helix.events.sdk" = "==0.1.0"
+smart-open = {extras = ["s3"], version = "==4.0.1"}
+pymongo="*"
+
+[dev-packages]
+pre-commit = "==2.8.2"
+flake8 = "*"
+mypy = "*"
+pytest = "==6.1.0"
+importlib-metadata = "<2.0"
+deepdiff = {version = "*", extras = ["murmur"]}
+#jsonschema = "*"
+#fhirclient = "*"
+responses = "*"
+dictdiffer = "*"
+pytest-instafail = "*"
+pytest-xdist = "*"
+"pytest-xdist[psutil]" = "*"
+black="*"
+moto="*"
+
+[requires]
+python_version = "3.6"
+
+[pipenv]
+allow_prereleases = true
