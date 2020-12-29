@@ -6,8 +6,7 @@ RUN echo "deb-src http://deb.debian.org/debian buster main" >> /etc/apt/sources.
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
 
-# install git since it is needed by pre commit hooks
-RUN apt update && apt-get clean
+RUN apt update && apt build-dep -y python3 && apt install git -y && git --version && apt-get clean
 
 RUN pip install --upgrade --no-cache-dir pip && \
     pip install --no-cache-dir wheel && \
