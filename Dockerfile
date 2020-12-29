@@ -17,7 +17,7 @@ RUN pip install --upgrade --no-cache-dir pip && \
 COPY Pipfile* /helix.pipelines/
 WORKDIR /helix.pipelines
 
-RUN pipenv sync --system && \
-    pipenv sync --dev --system
+#RUN pipenv sync --system
+#RUN pipenv sync --dev --system
 
 USER 1001
