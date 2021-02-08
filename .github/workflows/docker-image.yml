@@ -24,6 +24,6 @@ jobs:
         uses: WyriHaximus/github-action-get-previous-tag@master
       - name: Build, tag, and push image to Dockerhub
         run: |
-          docker build -t imranq2/spark_python:${{ steps.previoustag.outputs.tag }} -t imranq2/spark_python:latest .
+          docker build --squash -t imranq2/spark_python:${{ steps.previoustag.outputs.tag }} -t imranq2/spark_python:latest .
           docker push imranq2/spark_python:${{ steps.previoustag.outputs.tag }}
           docker push imranq2/spark_python:latest
