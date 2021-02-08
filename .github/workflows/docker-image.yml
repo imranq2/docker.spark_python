@@ -27,6 +27,7 @@ jobs:
           echo '{"experimental": true}' | sudo tee -a /etc/docker/daemon.json
       - name: Build, tag, and push image to Dockerhub
         run: |
+          echo '{"experimental": true}' | sudo tee -a /etc/docker/daemon.json
           docker build --squash -t imranq2/spark_python:${{ steps.previoustag.outputs.tag }} -t imranq2/spark_python:latest .
           docker push imranq2/spark_python:${{ steps.previoustag.outputs.tag }}
           docker push imranq2/spark_python:latest
