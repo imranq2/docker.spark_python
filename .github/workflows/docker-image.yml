@@ -22,12 +22,11 @@ jobs:
       - name: Get Previous tag
         id: previoustag
         uses: WyriHaximus/github-action-get-previous-tag@master
-      - name: enable experimental mode
-        run: |
-          echo '{"experimental": true}' | sudo tee -a /etc/docker/daemon.json
+#      - name: enable experimental mode
+#        run: |
+#          echo '{"experimental": true}' | sudo tee -a /etc/docker/daemon.json
       - name: Build, tag, and push image to Dockerhub
         run: |
-          echo '{"experimental": true}' | sudo tee -a /etc/docker/daemon.json
-          docker build --squash -t imranq2/spark_python:${{ steps.previoustag.outputs.tag }} -t imranq2/spark_python:latest .
+          docker build -t imranq2/spark_python:${{ steps.previoustag.outputs.tag }} -t imranq2/spark_python:latest .
           docker push imranq2/spark_python:${{ steps.previoustag.outputs.tag }}
           docker push imranq2/spark_python:latest
