@@ -40,8 +40,14 @@ RUN python -m pip install --upgrade --no-cache-dir pip && \
     python -m pip install --no-cache-dir pre-commit && \
     python -m pip install --no-cache-dir pipenv
 
-RUN apt-get install -y curl && \
-    curl https://repo1.maven.org/maven2/org/apache/spark/spark-sql-kafka-0-10_2.12/3.0.1/spark-sql-kafka-0-10_2.12-3.0.1.jar -o /opt/bitnami/spark/jars/spark-sql-kafka-0-10_2.12-3.0.1.jar && \
-    apt-get clean
+# this part is not workng.  Spark complains about not finding the kafka classes
+#RUN apt-get -y install maven && \
+#    mvn dependency:get -Ddest=/opt/bitnami/spark/jars/ -DgroupId=org.apache.spark -DartifactId=spark-sql-kafka-0-10_2.12 -Dversion=3.0.1
+#mvn dependency:get -Ddest=./ -DgroupId=org.apache.spark -DartifactId=spark-sql-kafka-0-10_2.12 -Dversion=3.0.1 -Dtype=pom
+#mvn dependency:get -Ddest=./ -Dartifact=org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.1 -Dtype=pom
+#mvn dependency:copy-dependencies -DoutputDirectory=/opt/bitnami/spark/jars/
+#RUN apt-get install -y curl && \
+#    curl https://repo1.maven.org/maven2/org/apache/spark/spark-sql-kafka-0-10_2.12/3.0.1/spark-sql-kafka-0-10_2.12-3.0.1.jar -o /opt/bitnami/spark/jars/spark-sql-kafka-0-10_2.12-3.0.1.jar && \
+#mvn dependency:copy-dependencies -DoutputDirectory=OUTPUT_DIR
 
 USER 1001
