@@ -36,6 +36,6 @@ jobs:
       - name: Build, tag, and push image to Dockerhub
         run: |
           docker build -t imranq2/spark_python:${{ steps.previoustag.outputs.tag }} -t imranq2/spark_python:latest .
-          docker-squash -f 100 -t imranq2/spark_python:${{ steps.previoustag.outputs.tag }} imranq2/spark_python:${{ steps.previoustag.outputs.tag }}
+          docker-squash -t imranq2/spark_python:${{ steps.previoustag.outputs.tag }} imranq2/spark_python:${{ steps.previoustag.outputs.tag }}
           docker push imranq2/spark_python:${{ steps.previoustag.outputs.tag }}
           docker push imranq2/spark_python:latest
