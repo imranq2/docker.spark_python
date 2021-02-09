@@ -25,8 +25,17 @@ jobs:
 #      - name: enable experimental mode
 #        run: |
 #          echo '{"experimental": true}' | sudo tee -a /etc/docker/daemon.json
+      # install pipenv
+      - name: Set up Python 3.7
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.7
+      - name: pip install docker-squash
+        run: |
+          pip install docker-squash
       - name: Build, tag, and push image to Dockerhub
         run: |
           docker build -t imranq2/spark_python:${{ steps.previoustag.outputs.tag }} -t imranq2/spark_python:latest .
+          docker-squash -f 100 -t imranq2/spark_python:${{ steps.previoustag.outputs.tag }} imranq2/spark_python:${{ steps.previoustag.outputs.tag }}
           docker push imranq2/spark_python:${{ steps.previoustag.outputs.tag }}
           docker push imranq2/spark_python:latest
