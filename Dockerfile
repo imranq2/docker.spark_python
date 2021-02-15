@@ -13,11 +13,6 @@ RUN pip install --upgrade --no-cache-dir pip && \
     pip install --no-cache-dir pre-commit && \
     pip install --no-cache-dir pipenv
 
-COPY Pipfile* /helix.pipelines/
-WORKDIR /helix.pipelines
-
-#RUN pipenv sync --system
-#RUN pipenv sync --dev --system
 # remove all packages from python 3.6 to avoid confusion
 RUN pip freeze | xargs pip uninstall -y
 
@@ -49,5 +44,11 @@ RUN python -m pip install --upgrade --no-cache-dir pip && \
 #RUN apt-get install -y curl && \
 #    curl https://repo1.maven.org/maven2/org/apache/spark/spark-sql-kafka-0-10_2.12/3.0.1/spark-sql-kafka-0-10_2.12-3.0.1.jar -o /opt/bitnami/spark/jars/spark-sql-kafka-0-10_2.12-3.0.1.jar && \
 #mvn dependency:copy-dependencies -DoutputDirectory=OUTPUT_DIR
+
+COPY Pipfile* /helix.pipelines/
+WORKDIR /helix.pipelines
+
+RUN df -h # for space monitoring
+RUN pipenv sync --dev --system
 
 USER 1001
