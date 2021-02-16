@@ -5,7 +5,7 @@ name = "pypi"
 
 [packages]
 wheel = ">=0.36.2"
-sparkpipelineframework = "==0.1.65"
+sparkpipelineframework = "==0.1.68"
 "sparkpipelineframework.testing" = "==0.1.68"
 sparkautomapper = "==0.2.4"
 "sparkautomapper.fhir" = "==0.1.93"

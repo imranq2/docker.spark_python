@@ -1,4 +1,4 @@
-FROM docker.io/bitnami/spark:3.0.1-debian-10-r142
+FROM docker.io/bitnami/spark:3.0.1-debian-10-r152
 # from https://hub.docker.com/r/bitnami/spark
 USER root
 
@@ -44,6 +44,7 @@ RUN python -m pip install --upgrade --no-cache-dir pip && \
 #RUN apt-get install -y curl && \
 #    curl https://repo1.maven.org/maven2/org/apache/spark/spark-sql-kafka-0-10_2.12/3.0.1/spark-sql-kafka-0-10_2.12-3.0.1.jar -o /opt/bitnami/spark/jars/spark-sql-kafka-0-10_2.12-3.0.1.jar && \
 #mvn dependency:copy-dependencies -DoutputDirectory=OUTPUT_DIR
+RUN apt-get purge -y --auto-remove $buildDeps
 
 COPY Pipfile* /helix.pipelines/
 WORKDIR /helix.pipelines
