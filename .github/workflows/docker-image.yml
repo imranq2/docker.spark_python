@@ -38,5 +38,5 @@ jobs:
           docker build -t imranq2/spark_python:${{ steps.previoustag.outputs.tag }} -t imranq2/spark_python:latest .
           docker push imranq2/spark_python:${{ steps.previoustag.outputs.tag }}
           docker push imranq2/spark_python:latest
-          docker-squash -t imranq2/spark_python:${{ steps.previoustag.outputs.tag }} imranq2/spark_python:${{ steps.previoustag.outputs.tag }}-flattened
+          docker-squash -t imranq2/spark_python:${{ steps.previoustag.outputs.tag }}-flattened imranq2/spark_python:${{ steps.previoustag.outputs.tag }}
           docker push imranq2/spark_python:${{ steps.previoustag.outputs.tag }}-flattened
