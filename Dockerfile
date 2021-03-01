@@ -46,4 +46,9 @@ RUN echo "deb-src http://deb.debian.org/debian buster main" >> /etc/apt/sources.
 #mvn dependency:copy-dependencies -DoutputDirectory=OUTPUT_DIR
 #RUN apt-get purge -y --auto-remove $buildDeps
 
+# update the AWS jar so it gets newer functionality like WebSecurityProvider
+RUN rm /opt/bitnami/spark/jars/aws-java-sdk-bundle*.jar && \
+    curl https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.11.944/aws-java-sdk-bundle-1.11.944.jar -o /opt/bitnami/spark/jars/aws-java-sdk-bundle-1.11.944.jar && \
+    /opt/bitnami/spark/sbin/start-history-server.sh
+
 USER 1001
