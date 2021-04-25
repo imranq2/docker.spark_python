@@ -1,4 +1,4 @@
-FROM docker.io/bitnami/spark:3.0.1-debian-10-r152
+FROM docker.io/bitnami/spark:3.1.1-debian-10-r46
 # from https://hub.docker.com/r/bitnami/spark
 USER root
 
@@ -9,6 +9,7 @@ COPY Pipfile* /helix.pipelines/
 WORKDIR /helix.pipelines
 #RUN apt update && apt build-dep -y python3 && apt install git -y && git --version && apt-get clean
 
+# update python 3.7
 RUN echo "deb-src http://deb.debian.org/debian buster main" >> /etc/apt/sources.list && \
     pip install --upgrade --no-cache-dir pip && \
     pip install --no-cache-dir wheel && \
