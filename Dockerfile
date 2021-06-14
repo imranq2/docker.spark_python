@@ -1,4 +1,4 @@
-FROM docker.io/bitnami/spark:3.1.1-debian-10-r46
+FROM docker.io/bitnami/spark:3.1.1-debian-10-r80
 # from https://hub.docker.com/r/bitnami/spark
 USER root
 
@@ -31,7 +31,9 @@ RUN echo "deb-src http://deb.debian.org/debian buster main" >> /etc/apt/sources.
     python -m pip install --no-cache-dir wheel && \
     python -m pip install --no-cache-dir pre-commit && \
     python -m pip install --no-cache-dir pipenv && \
+    pipenv lock --dev --clear && \
     pipenv sync --dev --system && \
+    apt-get install -y maven && \
     apt-get clean autoclean && \
     apt-get autoremove --yes && \
     rm -rf /var/lib/{apt,dpkg,cache,log}/
@@ -45,11 +47,26 @@ RUN echo "deb-src http://deb.debian.org/debian buster main" >> /etc/apt/sources.
 #RUN apt-get install -y curl && \
 #    curl https://repo1.maven.org/maven2/org/apache/spark/spark-sql-kafka-0-10_2.12/3.0.1/spark-sql-kafka-0-10_2.12-3.0.1.jar -o /opt/bitnami/spark/jars/spark-sql-kafka-0-10_2.12-3.0.1.jar && \
 #mvn dependency:copy-dependencies -DoutputDirectory=OUTPUT_DIR
+# mvn install:install-file -Dfile=<path-to-file> -DgroupId=<group-id> -DartifactId=<artifact-id> -Dversion=<version> -Dpackaging=<packaging>
 #RUN apt-get purge -y --auto-remove $buildDeps
+
+#RUN apt-get install -y curl && \
+#    curl https://repo1.maven.org/maven2/org/apache/spark/spark-sql-kafka-0-10_2.12/3.0.1/spark-sql-kafka-0-10_2.12-3.0.1.jar -o /opt/bitnami/spark/jars/spark-sql-kafka-0-10_2.12-3.0.1.jar && \
+
+# mvn install:install-file -Dfile=<path-to-file>
+
+# apt-get remove -y maven
+
+# mysql:mysql-connector-java:8.0.24
+# com.amazonaws:aws-java-sdk-bundle:1.11.944
+#     mvn org.apache.maven.plugins:maven-dependency-plugin:2.1:get -DrepoUrl=http://download.java.net/maven/2/ -Dartifact=org.apache.spark:spark-sql-kafka-0-10_2.12:3.1.1 && \
+# mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.2:copy -DoutputDirectory=/opt/bitnami/spark/jars/ -DrepoUrl=http://download.java.net/maven/2/ -Dartifact=org.apache.spark:spark-sql-kafka-0-10_2.12:3.1.1 && \
 
 # update the AWS jar so it gets newer functionality like WebSecurityProvider
 RUN rm /opt/bitnami/spark/jars/aws-java-sdk-bundle*.jar && \
     curl https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.11.944/aws-java-sdk-bundle-1.11.944.jar -o /opt/bitnami/spark/jars/aws-java-sdk-bundle-1.11.944.jar && \
     /opt/bitnami/spark/sbin/start-history-server.sh
 
-USER 1001
+#USER 1001
+
+USER root
