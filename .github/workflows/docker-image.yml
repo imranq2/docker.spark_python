@@ -15,10 +15,10 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
       - name: Login to DockerHub
-        uses: docker/login-action@v1 
+        uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}     
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Get Previous tag
         id: previoustag
         uses: WyriHaximus/github-action-get-previous-tag@master
@@ -38,5 +38,3 @@ jobs:
           docker build -t imranq2/spark_python:${{ steps.previoustag.outputs.tag }} -t imranq2/spark_python:latest .
           docker push imranq2/spark_python:${{ steps.previoustag.outputs.tag }}
           docker push imranq2/spark_python:latest
-          docker-squash -t imranq2/spark_python:${{ steps.previoustag.outputs.tag }}-flattened imranq2/spark_python:${{ steps.previoustag.outputs.tag }}
-          docker push imranq2/spark_python:${{ steps.previoustag.outputs.tag }}-flattened
