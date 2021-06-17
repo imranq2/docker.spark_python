@@ -1,5 +1,5 @@
 build:
-	docker image rm imranq2/spark_python:local || echo "no image"
+	#docker image rm imranq2/spark_python:local || echo "no image"
 	docker build -t imranq2/spark_python:local .
 
 shell:
