@@ -70,12 +70,15 @@ RUN rm /opt/bitnami/spark/jars/aws-java-sdk-bundle*.jar && \
 #USER 1001
 
 COPY ./conf/* /opt/bitnami/spark/conf/
-
 COPY ./test.py ./
 
 #RUN /opt/bitnami/spark/bin/spark-submit --master local[*] --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.1.1 test.py
 
 # have spark download the jars needed
 RUN /opt/bitnami/spark/bin/spark-submit --master local[*] test.py
+
+# download dependencies for cql_engine
+COPY ./cql_spark_engine/* /opt/cql_spark_engine/
+RUN cd /opt/cql_spark_engine/ &&  mvn --batch-mode --update-snapshots verify clean
 
 USER root
