@@ -79,6 +79,6 @@ RUN /opt/bitnami/spark/bin/spark-submit --master local[*] test.py
 
 # download dependencies for cql_engine
 COPY ./cql_spark_engine/* /opt/cql_spark_engine/
-RUN cd /opt/cql_spark_engine/ &&  mvn --batch-mode --update-snapshots verify clean
+RUN cd /opt/cql_spark_engine/ && mvn dependency:copy-dependencies -DoutputDirectory=/opt/bitnami/spark/jars/ -Dhttps.protocols=TLSv1.2
 
 USER root
