@@ -1,3 +1,18 @@
+# Build stage
+FROM maven:3.8.4-jdk-11-slim AS build
+# get dependencies for bsights-engine-spark
+RUN mkdir /tmp/bsights-engine-spark \
+    && cd /tmp/bsights-engine-spark \
+    && curl https://raw.githubusercontent.com/icanbwell/bsights-engine-spark/main/pom.xml -o pom.xml \
+    && mkdir /tmp/spark \
+    && mkdir /tmp/spark/jars \
+    && mvn dependency:copy-dependencies -DoutputDirectory=/tmp/spark/jars -Dhttps.protocols=TLSv1.2 \
+    && ls /tmp/spark/jars \
+    && mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.2:copy -DoutputDirectory=/tmp/spark/jars -DrepoUrl=http://download.java.net/maven/2/ -Dartifact=com.amazonaws:aws-java-sdk-bundle:1.12.128 \
+    && mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.2:copy -DoutputDirectory=/tmp/spark/jars -DrepoUrl=http://download.java.net/maven/2/ -Dartifact=org.apache.hadoop:hadoop-aws:3.2.0 \
+    && mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.2:copy -DoutputDirectory=/tmp/spark/jars -DrepoUrl=http://download.java.net/maven/2/ -Dartifact=org.apache.spark:spark-sql-kafka-0-10_2.12:3.1.1 \
+    && ls /tmp/spark/jars
+
 FROM docker.io/bitnami/spark:3.1.1-debian-10-r80
 # from https://hub.docker.com/r/bitnami/spark
 USER root
@@ -72,13 +87,11 @@ RUN rm /opt/bitnami/spark/jars/aws-java-sdk-bundle*.jar && \
 COPY ./conf/* /opt/bitnami/spark/conf/
 COPY ./test.py ./
 
+COPY --from=build /tmp/spark/jars /opt/bitnami/spark/jars/
+
 #RUN /opt/bitnami/spark/bin/spark-submit --master local[*] --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.1.1 test.py
 
 # have spark download the jars needed
 RUN /opt/bitnami/spark/bin/spark-submit --master local[*] test.py
-
-# download dependencies for cql_engine
-COPY ./cql_spark_engine/* /opt/cql_spark_engine/
-RUN cd /opt/cql_spark_engine/ && mvn dependency:copy-dependencies -DoutputDirectory=/opt/bitnami/spark/jars/ -Dhttps.protocols=TLSv1.2
 
 USER root
