@@ -35,6 +35,6 @@ jobs:
           pip install docker-squash
       - name: Build, tag, and push image to Dockerhub
         run: |
-          docker build -t imranq2/spark_python:${{ steps.previoustag.outputs.tag }} -t imranq2/spark_python:latest .
+          docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 -t imranq2/spark_python:${{ steps.previoustag.outputs.tag }} -t imranq2/spark_python:latest .
           docker push imranq2/spark_python:${{ steps.previoustag.outputs.tag }}
           docker push imranq2/spark_python:latest

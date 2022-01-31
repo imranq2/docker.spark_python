@@ -1,5 +1,6 @@
 build:
 	docker image rm imranq2/spark_python:local || echo "no image"
+	#docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 -t username/demo:latest .
 	docker build -t imranq2/spark_python:local .
 
 shell:
